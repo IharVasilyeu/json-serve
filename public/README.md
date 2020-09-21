@@ -18,7 +18,7 @@ When doing requests, it's good to know that:
 ### Query Example
 
 #### Note 
-#####Use URL parameters to build more complex and rational queries. They are described below example requests.
+##### Use URL parameters to build more complex and rational queries. They are described below example requests.
 
 #### GET
 ```
