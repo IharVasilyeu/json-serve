@@ -8,12 +8,84 @@ When doing requests, it's good to know that:
 
 ## Entities
 
-- Users - [/users](/users)
-- Tasks - [/tasks](/tasks)
-- Reviews requests - [/review-request](/review-request)
-- Cross check sessions - [/cross-check-sessions](/cross-check-sessions)
-- Reviews - [/reviews](/reviews)
-- Disputes - [/disputes](/disputes)
+- Users - [/users](/users) or [user object](/users/1)
+- Tasks - [/tasks](/tasks) or [task object](/tasks/1)
+- Reviews requests - [/review-request](/review-request) or [review-request object](/review-request/1)
+- Cross check sessions - [/cross-check-sessions](/cross-check-sessions) or [cross-check-sessions object](/cross-check-sessions/1)
+- Reviews - [/reviews](/reviews) or [review object](/reviews/1)
+- Disputes - [/disputes](/disputes) or [dispute object](/disputes/1)
+
+### Query Example
+
+#### Note 
+#####Use URL parameters to build more complex and rational queries. They are described below example requests.
+
+#### GET
+```
+fetch(`https://x-check-json-server.herokuapp.com/users/your-github-name`, {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json"
+    }
+})
+    .then(res => res.json())
+    .then(result => console.log(result))
+    .catch(err => console.log(err))
+
+Response: {roles: Array(2), id: "your-github-name"}
+```
+
+#### POST
+```
+fetch(`https://x-check-json-server.herokuapp.com/users`, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        id: "your-github-name",
+        roles: ["author", "student", "supervisor", "course_manager"]
+    })
+})
+    .then(res => res.json())
+    .then(result => console.log(result))
+    .catch(err => console.log(err))
+
+Response: {id: "your-github-name", roles: Array(4)} 
+```
+
+#### PUT
+```
+fetch(`https://x-check-json-server.herokuapp.com/users/your-github-name`, {
+    method: "PUT",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        roles: ["author", "student"]
+    })
+})
+    .then(res => res.json())
+    .then(result => console.log(result))
+    .catch(err => console.log(err))
+
+Response: {roles: Array(2), id: "your-github-name"}
+```
+
+#### DELETE
+```
+fetch(`https://x-check-json-server.herokuapp.com/users/your-github-name`, {
+    method: "DELETE",
+    headers: {
+        "Content-Type": "application/json"
+    }
+})
+    .then(res => res.json())
+    .then(result => console.log(result))
+    .catch(err => console.log(err))
+
+Response: {}. If try GET https://x-check-json-server.herokuapp.com/users/your-github-name, then you get 404 not found
+```
 
 ## Routes
 
