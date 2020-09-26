@@ -34,7 +34,7 @@ function generateData() {
     });
   }
 
-  for (let id = 0; id < 100; id += 1) {
+  for (let id = 0; id < 1000; id += 1) {
     const taskName = faker.name.jobTitle();
     const short = Math.floor(Math.random() * 2);
     tasks.push({
@@ -132,7 +132,7 @@ function generateData() {
   }
 
   const useTask = [];
-  for (let id = 0; id < 100; id += 1) {
+  for (let id = 0; id < 1000; id += 1) {
     const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
     if (randomTask.state === "PUBLISHED" && !useTask.includes(randomTask)) {
       const ccName = `rss2020Q3 Cross Check - ${randomTask.name}`;
@@ -142,7 +142,7 @@ function generateData() {
         bufUsers.sort(() => Math.random() - 0.5);
         return {
           githubId: u.id,
-          reviewerOf: bufUsers.splice(0, 3),
+          reviewerOf: bufUsers.splice(0, 4),
         };
       });
       crossCheckSessions.push({
@@ -164,64 +164,91 @@ function generateData() {
     }
   }
 
-  for (let id = 0; id < 100; id += 1) {
+  for (let id = 0; id < 1000; id += 1) {
     const taskId = tasks[Math.floor(Math.random() * tasks.length)].id;
     const cc = crossCheckSessions.find((x) => x.taskId === taskId);
     if (cc) {
-      reviewRequest.push({
-        id: id,
-        state: requestState[Math.floor(Math.random() * requestState.length)],
-        taskId: taskId,
-        crossCheckSessionsId: cc.id,
-        userId: users[Math.floor(Math.random() * users.length)].id,
-        selfGrade: {
-          basic_p1: {
-            score: Math.random().toFixed(1) * 200,
-            comment: "Well done!",
+      const state =
+        requestState[Math.floor(Math.random() * requestState.length)];
+      if (state === "DRAFT") {
+        reviewRequest.push({
+          id: id,
+          state: state,
+          taskId: taskId,
+          pullRequest: "",
+          crossCheckSessionsId: cc.id,
+          userId: users[Math.floor(Math.random() * users.length)].id,
+          selfGrade: {},
+        });
+      } else {
+        reviewRequest.push({
+          id: id,
+          state: state,
+          taskId: taskId,
+          pullRequest: "",
+          crossCheckSessionsId: cc.id,
+          userId: users[Math.floor(Math.random() * users.length)].id,
+          selfGrade: {
+            basic_p1: {
+              score: Math.random().toFixed(1) * 200,
+              comment: "Well done!",
+            },
+            extra_p1: {
+              score: Math.random().toFixed(1) * 100,
+              comment: "Some things are done, some are not",
+            },
+            fines_p1: {
+              score: -Math.random().toFixed(1) * 50,
+              comment: "No ticket today",
+            },
           },
-          extra_p1: {
-            score: Math.random().toFixed(1) * 100,
-            comment: "Some things are done, some are not",
-          },
-          fines_p1: {
-            score: -Math.random().toFixed(1) * 50,
-            comment: "No ticket today",
-          },
-        },
-      });
+        });
+      }
     }
   }
 
-  for (let id = 0; id < 100; id += 1) {
+  for (let id = 0; id < 1000; id += 1) {
     const taskId = tasks[Math.floor(Math.random() * tasks.length)].id;
-    const cc = crossCheckSessions.find((x) => x.taskId === taskId);
-    if (cc) {
-      reviews.push({
-        id: id,
-        state: reviewState[Math.floor(Math.random() * reviewState.length)],
-        taskId: taskId,
-        crossCheckSessionsId: cc.id,
-        userId: users[Math.floor(Math.random() * users.length)].id,
-        grade: {
-          basic_p1: {
-            score: Math.random().toFixed(1) * 200,
-            comment: "Well done!",
+    const rr = reviewRequest.find((x) => x.taskId === taskId);
+    if (rr) {
+      const state = reviewState[Math.floor(Math.random() * reviewState.length)];
+      if (state === "DRAFT") {
+        reviews.push({
+          id: id,
+          state: state,
+          taskId: taskId,
+          reviewRequestId: rr.id,
+          userId: users[Math.floor(Math.random() * users.length)].id,
+          grade: {},
+        });
+      } else {
+        reviews.push({
+          id: id,
+          state: state,
+          taskId: taskId,
+          reviewRequestId: rr.id,
+          userId: users[Math.floor(Math.random() * users.length)].id,
+          grade: {
+            basic_p1: {
+              score: Math.random().toFixed(1) * 200,
+              comment: "Well done!",
+            },
+            extra_p1: {
+              score: Math.random().toFixed(1) * 100,
+              comment: "Some things are done, some are not",
+            },
+            fines_p1: {
+              score: -Math.random().toFixed(1) * 50,
+              comment: "No ticket today",
+            },
           },
-          extra_p1: {
-            score: Math.random().toFixed(1) * 100,
-            comment: "Some things are done, some are not",
-          },
-          fines_p1: {
-            score: -Math.random().toFixed(1) * 50,
-            comment: "No ticket today",
-          },
-        },
-      });
+        });
+      }
     }
   }
 
   const useReview = [];
-  for (let id = 0; id < 20; id += 1) {
+  for (let id = 0; id < 200; id += 1) {
     const randomReview = reviews[Math.floor(Math.random() * reviews.length)];
     if (!useReview.includes(randomReview)) {
       disputes.push({
@@ -239,8 +266,8 @@ function generateData() {
     users: users,
     tasks: tasks,
     reviews: reviews,
-    "cross-check-sessions": crossCheckSessions,
-    "review-request": reviewRequest,
+    crossCheckSessions: crossCheckSessions,
+    reviewRequest: reviewRequest,
     disputes: disputes,
   };
 }
