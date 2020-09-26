@@ -10,8 +10,8 @@ When doing requests, it's good to know that:
 
 - Users - [/users](/users) or [user object](/users/1)
 - Tasks - [/tasks](/tasks) or [task object](/tasks/1)
-- Reviews requests - [/reviewRequest](/review-request) or [reviewRequest object](/reviewRequest/1) (if there is nothing on id 1, try another)
-- Cross check sessions - [/crossCheckSessions](/cross-check-sessions) or [crossCheckSessions object](/crossCheckSessions/1) (if there is nothing on id 1, try another)
+- Reviews requests - [/reviewRequest](/reviewRequest) or [reviewRequest object](/reviewRequest/1) (if there is nothing on id 1, try another)
+- Cross check sessions - [/crossCheckSessions](/crossCheckSessions) or [crossCheckSessions object](/crossCheckSessions/1) (if there is nothing on id 1, try another)
 - Reviews - [/reviews](/reviews) or [review object](/reviews/1) (if there is nothing on id 1, try another)
 - Disputes - [/disputes](/disputes) or [dispute object](/disputes/1) (if there is nothing on id 1, try another)
 
